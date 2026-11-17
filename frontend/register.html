@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | EventSphere</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+    <header class="auth-navbar">
+        <a href="index.html" class="logo">Event<span>Sphere.</span></a>
+        <a href="index.html" class="back-home">← Back to Home</a>
+    </header>
+
+    <main class="auth-layout register-layout">
+        <section class="auth-visual">
+            <span class="small-label">JOIN OUR COMMUNITY</span>
+            <h1>Be part of<br>something great.</h1>
+            <p>Create your account and discover conferences, workshops and professional opportunities.</p>
+        </section>
+
+        <section class="auth-form-area">
+            <form class="auth-form">
+                <span class="small-label">GET STARTED</span>
+                <h2>Create Account</h2>
+                <p class="form-description">Fill in your details to join EventSphere.</p>
+
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name"
+                       placeholder="Enter your full name" required>
+
+                <label for="register-email">Email Address</label>
+                <input type="email" id="register-email"
+                       placeholder="Enter your email" required>
+
+                <label for="register-password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="register-password"
+                           placeholder="Create a password" minlength="8" required>
+                    <button type="button" class="toggle-password"
+                            data-target="register-password">Show</button>
+                </div>
+
+                <label for="confirm-password">Confirm Password</label>
+                <div class="password-field">
+                    <input type="password" id="confirm-password"
+                           placeholder="Re-enter your password" minlength="8" required>
+                    <button type="button" class="toggle-password"
+                            data-target="confirm-password">Show</button>
+                </div>
+
+                <label class="terms-option">
+                    <input type="checkbox" required>
+                    I agree to the Terms and Conditions.
+                </label>
+
+                <button type="submit" class="auth-submit">Create Account</button>
+
+                <p class="form-switch">
+                    Already have an account?
+                    <a href="login.html">Log In</a>
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="auth-footer">
+        © 2026 EventSphere. All rights reserved.
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

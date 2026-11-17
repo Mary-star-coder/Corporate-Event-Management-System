@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | EventSphere</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+    <header class="auth-navbar">
+        <a href="index.html" class="logo">Event<span>Sphere.</span></a>
+        <a href="index.html" class="back-home">← Back to Home</a>
+    </header>
+
+    <main class="auth-layout login-layout">
+        <section class="auth-visual">
+            <span class="small-label">WELCOME BACK</span>
+            <h1>Your next great<br>experience awaits.</h1>
+            <p>Sign in to discover events, manage your registrations and stay connected.</p>
+        </section>
+
+        <section class="auth-form-area">
+            <form class="auth-form">
+                <span class="small-label">YOUR EVENT JOURNEY</span>
+                <h2>Welcome Back!</h2>
+                <p class="form-description">Please enter your details to sign in.</p>
+
+                <label for="login-email">Email Address</label>
+                <input type="email" id="login-email"
+                       placeholder="Enter your email" required>
+
+                <label for="login-password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="login-password"
+                           placeholder="Enter your password" required>
+                    <button type="button" class="toggle-password"
+                            data-target="login-password">Show</button>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-option">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="form-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="auth-submit">Log In</button>
+
+                <p class="form-switch">
+                    Don't have an account?
+                    <a href="register.html">Create an account</a>
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="auth-footer">
+        © 2026 EventSphere. All rights reserved.
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
