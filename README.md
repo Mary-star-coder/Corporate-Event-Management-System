@@ -71,8 +71,8 @@ Corporate-Event-Management/
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd "corporate Event Management"
+git clone https://github.com/Mary-star-coder/Corporate-Event-Management-System.git
+cd Corporate-Event-Management-System
 ```
 
 ### 2. Create Virtual Environment

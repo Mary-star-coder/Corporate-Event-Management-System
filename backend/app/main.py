@@ -2,13 +2,13 @@
 # Import FastAPI tools for creating APIs, handling dependencies,
 # raising HTTP errors, and defining HTTP status codes.
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.responses import Response
 
 # Import SQLAlchemy Session to communicate with the database.
 from sqlalchemy.orm import Session
 
 # Import CORS middleware to allow frontend-backend communication.
 from fastapi.middleware.cors import CORSMiddleware
-
 
 # Import database engine and database session dependency.
 from app.database import engine, get_db
@@ -42,7 +42,6 @@ from app.auth import (
 # ==========================================
 
 # Create the main FastAPI application.
-# Title, description, and version appear in Swagger documentation.
 app = FastAPI(
     title="Corporate Event Management System",
     description="API for managing corporate events and registrations",
@@ -54,8 +53,7 @@ app = FastAPI(
 # CORS CONFIGURATION
 # ==========================================
 
-# CORS allows the frontend running on another origin
-# to send HTTP requests to this backend.
+# Allow the frontend to communicate with the backend.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -72,8 +70,7 @@ app.add_middleware(
 # DATABASE TABLE CREATION
 # ==========================================
 
-# Create all database tables defined in the SQLAlchemy models.
-# Existing tables are not recreated or deleted.
+# Create database tables defined in SQLAlchemy models.
 Base.metadata.create_all(bind=engine)
 
 
@@ -81,7 +78,7 @@ Base.metadata.create_all(bind=engine)
 # HOME API
 # ==========================================
 
-# GET endpoint for checking whether the API is running.
+# Check whether the API is running.
 @app.get("/")
 def home():
     return {
@@ -91,28 +88,26 @@ def home():
 
 # ==========================================
 # CREATE EVENT API
+# JWT AUTHENTICATION REQUIRED
 # ==========================================
 
-# POST endpoint to create a new corporate event.
-# EventCreate validates the incoming event information.
-# EventResponse defines the structure of the returned data.
+# Only authenticated users can create events.
 @app.post(
     "/events",
     response_model=EventResponse,
     status_code=status.HTTP_201_CREATED
 )
-def create_event(event: EventCreate, db: Session = Depends(get_db)):
-
-    # Convert the validated Pydantic data into an Event model object.
+def create_event(
+    event: EventCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Convert validated Pydantic data into an Event object.
     new_event = Event(**event.model_dump())
 
-    # Add the new event to the database session.
+    # Add and save the event in the database.
     db.add(new_event)
-
-    # Save the new event permanently in the database.
     db.commit()
-
-    # Refresh the object to retrieve database-generated values.
     db.refresh(new_event)
 
     return new_event
@@ -120,34 +115,32 @@ def create_event(event: EventCreate, db: Session = Depends(get_db)):
 
 # ==========================================
 # GET ALL EVENTS API
-# WITH PAGINATION, SEARCH AND FILTERING
+# PAGINATION, SEARCH AND FILTERING
 # ==========================================
 
-# GET endpoint to retrieve events from the database.
+# Retrieve events with optional pagination and filters.
 @app.get("/events", response_model=list[EventResponse])
 def get_events(
-    skip: int = 0,                 # Number of records to skip.
-    limit: int = 5,                # Maximum number of events to return.
-    search: str | None = None,     # Optional event title search.
-    location: str | None = None,   # Optional location filter.
-    db: Session = Depends(get_db) # Database session dependency.
+    skip: int = 0,
+    limit: int = 5,
+    search: str | None = None,
+    location: str | None = None,
+    db: Session = Depends(get_db)
 ):
-
-    # Start building a query for the Event table.
+    # Start a query for all events.
     query = db.query(Event)
 
     # Search event titles without case sensitivity.
     if search:
         query = query.filter(Event.title.ilike(f"%{search}%"))
 
-    # Filter events according to their location.
+    # Filter events by location.
     if location:
         query = query.filter(Event.location.ilike(f"%{location}%"))
 
-    # Apply pagination using skip and limit values.
+    # Apply pagination.
     events = query.offset(skip).limit(limit).all()
 
-    # Return the matching event records.
     return events
 
 
@@ -155,17 +148,19 @@ def get_events(
 # GET SINGLE EVENT API
 # ==========================================
 
-# GET endpoint to retrieve one event using its ID.
+# Retrieve one event using its ID.
 @app.get("/events/{event_id}", response_model=EventResponse)
-def get_event(event_id: int, db: Session = Depends(get_db)):
-
-    # Find the event whose ID matches the requested ID.
+def get_event(
+    event_id: int,
+    db: Session = Depends(get_db)
+):
+    # Find the requested event.
     event = db.query(Event).filter(Event.id == event_id).first()
 
-    # Return 404 if the requested event does not exist.
+    # Return 404 if the event does not exist.
     if event is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Event not found"
         )
 
@@ -174,37 +169,36 @@ def get_event(event_id: int, db: Session = Depends(get_db)):
 
 # ==========================================
 # UPDATE EVENT API
+# JWT AUTHENTICATION REQUIRED
 # ==========================================
 
-# PUT endpoint to update an existing event.
+# Only authenticated users can update events.
 @app.put("/events/{event_id}", response_model=EventResponse)
 def update_event(
     event_id: int,
     event_data: EventUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
-
-    # Find the event that needs to be updated.
+    # Find the event that needs updating.
     event = db.query(Event).filter(Event.id == event_id).first()
 
     # Check whether the event exists.
     if event is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Event not found"
         )
 
-    # Convert only the fields provided by the user into a dictionary.
+    # Get only the fields supplied in the request.
     update_data = event_data.model_dump(exclude_unset=True)
 
-    # Update each provided field in the existing event object.
+    # Update the supplied event fields.
     for key, value in update_data.items():
         setattr(event, key, value)
 
-    # Save the updated event in the database.
+    # Save the changes.
     db.commit()
-
-    # Refresh the event to get its latest database values.
     db.refresh(event)
 
     return event
@@ -212,38 +206,128 @@ def update_event(
 
 # ==========================================
 # DELETE EVENT API
+# JWT AUTHENTICATION REQUIRED
 # ==========================================
 
-# DELETE endpoint to remove an event using its ID.
-@app.delete("/events/{event_id}")
-def delete_event(event_id: int, db: Session = Depends(get_db)):
-
-    # Find the event that needs to be deleted.
+# Only authenticated users can delete events.
+@app.delete(
+    "/events/{event_id}",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def delete_event(
+    event_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Find the event that needs deleting.
     event = db.query(Event).filter(Event.id == event_id).first()
 
     # Return 404 if the event does not exist.
     if event is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Event not found"
         )
 
-    # Remove the event from the database session.
+    # Delete the event and save the change.
     db.delete(event)
-
-    # Permanently save the deletion.
     db.commit()
 
-    return {
-        "message": "Event deleted successfully"
-    }
+    # Return an empty 204 No Content response.
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 # ==========================================
-# CREATE EVENT REGISTRATION API
+# REGISTRATION HELPER FUNCTION
 # ==========================================
 
-# POST endpoint that allows an attendee to register for an event.
+# This function contains the shared business rules for registration.
+# Both registration POST endpoints use this function.
+def create_registration_record(
+    event_id: int,
+    registration: RegistrationCreate,
+    db: Session
+):
+    # Check whether the requested event exists.
+    event = db.query(Event).filter(Event.id == event_id).first()
+
+    if event is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Event not found"
+        )
+
+    # Prevent registration when no seats are available.
+    if event.available_seats <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="No seats available for this event"
+        )
+
+    # Check whether this attendee is already registered.
+    existing = db.query(Registration).filter(
+        Registration.event_id == event_id,
+        Registration.attendee_email == registration.attendee_email
+    ).first()
+
+    # Prevent duplicate registrations.
+    if existing:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="You are already registered for this event"
+        )
+
+    # Convert validated request data into a dictionary.
+    # The event ID from the URL is used as the authoritative ID.
+    registration_data = registration.model_dump(exclude={"event_id"})
+
+    # Create a new registration record.
+    new_registration = Registration(
+        event_id=event_id,
+        **registration_data
+    )
+
+    # Decrease the number of available seats.
+    event.available_seats -= 1
+
+    # Save the registration and updated seat count.
+    db.add(new_registration)
+    db.commit()
+    db.refresh(new_registration)
+
+    return new_registration
+
+
+# ==========================================
+# CREATE REGISTRATION FOR A SPECIFIC EVENT
+# PDF REQUIRED ENDPOINT
+# ==========================================
+
+# Register an attendee for the event specified in the URL.
+@app.post(
+    "/events/{event_id}/registrations",
+    response_model=RegistrationResponse,
+    status_code=status.HTTP_201_CREATED
+)
+def register_for_event(
+    event_id: int,
+    registration: RegistrationCreate,
+    db: Session = Depends(get_db)
+):
+    # Apply event existence, capacity and duplicate checks.
+    return create_registration_record(
+        event_id,
+        registration,
+        db
+    )
+
+
+# ==========================================
+# LEGACY CREATE REGISTRATION API
+# KEPT FOR FRONTEND COMPATIBILITY
+# ==========================================
+
+# Existing frontend can continue using POST /registrations.
 @app.post(
     "/registrations",
     response_model=RegistrationResponse,
@@ -253,72 +337,55 @@ def create_registration(
     registration: RegistrationCreate,
     db: Session = Depends(get_db)
 ):
+    # Use the event ID supplied in the request body.
+    return create_registration_record(
+        registration.event_id,
+        registration,
+        db
+    )
 
-    # Check whether the requested event exists.
-    event = db.query(Event).filter(
-        Event.id == registration.event_id
-    ).first()
 
-    # Stop registration if the event does not exist.
+# ==========================================
+# GET REGISTRATIONS FOR A SPECIFIC EVENT
+# PDF REQUIRED ENDPOINT
+# ==========================================
+
+# Retrieve all registrations belonging to one event.
+@app.get(
+    "/events/{event_id}/registrations",
+    response_model=list[RegistrationResponse]
+)
+def get_event_registrations(
+    event_id: int,
+    db: Session = Depends(get_db)
+):
+    # First check whether the event exists.
+    event = db.query(Event).filter(Event.id == event_id).first()
+
     if event is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Event not found"
         )
 
-    # Check whether any seats are available for the event.
-    if event.available_seats <= 0:
-        raise HTTPException(
-            status_code=400,
-            detail="No seats available"
-        )
+    # Retrieve registrations for the requested event.
+    registrations = db.query(Registration).filter(
+        Registration.event_id == event_id
+    ).all()
 
-    # Check whether the same attendee email is already
-    # registered for this particular event.
-    existing = db.query(Registration).filter(
-        Registration.event_id == registration.event_id,
-        Registration.attendee_email == registration.attendee_email
-    ).first()
-
-    # Prevent duplicate registrations.
-    if existing:
-        raise HTTPException(
-            status_code=400,
-            detail="You are already registered for this event"
-        )
-
-    # Create a new registration using validated request data.
-    new_registration = Registration(
-        **registration.model_dump()
-    )
-
-    # Decrease the event's available seat count by one.
-    event.available_seats -= 1
-
-    # Add the registration to the database session.
-    db.add(new_registration)
-
-    # Save the registration and updated seat count.
-    db.commit()
-
-    # Refresh the registration to retrieve generated database values.
-    db.refresh(new_registration)
-
-    return new_registration
+    return registrations
 
 
 # ==========================================
 # GET ALL REGISTRATIONS API
 # ==========================================
 
-# GET endpoint to retrieve all event registrations.
+# Retrieve every registration in the database.
 @app.get(
     "/registrations",
     response_model=list[RegistrationResponse]
 )
 def get_registrations(db: Session = Depends(get_db)):
-
-    # Retrieve and return all registration records.
     return db.query(Registration).all()
 
 
@@ -326,7 +393,7 @@ def get_registrations(db: Session = Depends(get_db)):
 # GET SINGLE REGISTRATION API
 # ==========================================
 
-# GET endpoint to retrieve a registration using its ID.
+# Retrieve one registration using its ID.
 @app.get(
     "/registrations/{registration_id}",
     response_model=RegistrationResponse
@@ -335,8 +402,7 @@ def get_registration(
     registration_id: int,
     db: Session = Depends(get_db)
 ):
-
-    # Find the registration matching the requested ID.
+    # Find the requested registration.
     registration = db.query(Registration).filter(
         Registration.id == registration_id
     ).first()
@@ -344,7 +410,7 @@ def get_registration(
     # Return 404 if the registration does not exist.
     if registration is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Registration not found"
         )
 
@@ -352,47 +418,86 @@ def get_registration(
 
 
 # ==========================================
+# CANCEL REGISTRATION API
+# PDF REQUIRED ENDPOINT
+# ==========================================
+
+# Cancel a registration and restore one available seat.
+@app.delete(
+    "/registrations/{registration_id}",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def cancel_registration(
+    registration_id: int,
+    db: Session = Depends(get_db)
+):
+    # Find the registration that needs cancelling.
+    registration = db.query(Registration).filter(
+        Registration.id == registration_id
+    ).first()
+
+    # Return 404 if the registration does not exist.
+    if registration is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Registration not found"
+        )
+
+    # Find the event associated with this registration.
+    event = db.query(Event).filter(
+        Event.id == registration.event_id
+    ).first()
+
+    # Restore one available seat if the event still exists.
+    if event is not None:
+        event.available_seats += 1
+
+    # Delete the registration.
+    db.delete(registration)
+    db.commit()
+
+    # Return an empty 204 No Content response.
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+# ==========================================
 # USER SIGNUP API
 # ==========================================
 
-# POST endpoint to create a new user account.
+# Create a new user account.
 @app.post(
     "/auth/register",
     response_model=UserResponse,
     status_code=status.HTTP_201_CREATED
 )
-def register_user(user: UserCreate, db: Session = Depends(get_db)):
-
-    # Check whether the email address is already registered.
+def register_user(
+    user: UserCreate,
+    db: Session = Depends(get_db)
+):
+    # Check whether the email is already registered.
     existing_user = db.query(User).filter(
         User.email == user.email
     ).first()
 
-    # Prevent multiple accounts using the same email.
     if existing_user:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_409_CONFLICT,
             detail="Email already registered"
         )
 
-    # Hash the user's password before saving it.
-    # Plain-text passwords are never stored in the database.
+    # Hash the password before storing it.
     hashed_password = get_password_hash(user.password)
 
-    # Create a new user database object.
+    # Create the new user.
     new_user = User(
         full_name=user.full_name,
         email=user.email,
         hashed_password=hashed_password
     )
 
-    # Add the new user to the database.
+    # Save the user in the database.
     db.add(new_user)
-
-    # Save the new account.
     db.commit()
-
-    # Refresh the object to retrieve generated values.
     db.refresh(new_user)
 
     return new_user
@@ -402,31 +507,33 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 # USER LOGIN API
 # ==========================================
 
-# POST endpoint to authenticate an existing user.
+# Authenticate a user and return a JWT access token.
 @app.post("/auth/login")
-def login_user(user: UserLogin, db: Session = Depends(get_db)):
-
-    # Find the user using the submitted email address.
+def login_user(
+    user: UserLogin,
+    db: Session = Depends(get_db)
+):
+    # Find the user by email.
     existing_user = db.query(User).filter(
         User.email == user.email
     ).first()
 
-    # Verify that the user exists and the submitted password is correct.
+    # Check the submitted password.
     if not existing_user or not verify_password(
         user.password,
         existing_user.hashed_password
     ):
         raise HTTPException(
-            status_code=401,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password"
         )
 
-    # Generate a JWT access token containing the user's email.
+    # Generate a JWT access token.
     access_token = create_access_token(
         data={"sub": existing_user.email}
     )
 
-    # Return the access token and basic user information.
+    # Return the token and basic user information.
     return {
         "access_token": access_token,
         "token_type": "bearer",
@@ -442,14 +549,11 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
 # PROTECTED USER PROFILE API
 # ==========================================
 
-# GET endpoint for retrieving the currently authenticated user's profile.
+# Retrieve the profile of the currently authenticated user.
 @app.get("/auth/me")
 def get_my_profile(
-    # get_current_user verifies the JWT token and identifies the user.
     current_user: User = Depends(get_current_user)
 ):
-
-    # Return the authenticated user's basic profile information.
     return {
         "id": current_user.id,
         "full_name": current_user.full_name,
