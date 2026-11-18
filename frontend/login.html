@@ -1,65 +1,165 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Define the character encoding for the webpage. -->
     <meta charset="UTF-8">
+
+    <!-- Make the login page responsive on different screen sizes. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Set the browser tab title. -->
     <title>Login | EventSphere</title>
+
+    <!-- Connect the external CSS stylesheet. -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
+<!-- Apply authentication page styling to the body. -->
 <body class="auth-page">
 
+
+    <!-- ==========================================
+         AUTHENTICATION NAVIGATION
+    =========================================== -->
+
+    <!-- Header containing the website logo and homepage link. -->
     <header class="auth-navbar">
+
+        <!-- Website logo links back to the homepage. -->
         <a href="index.html" class="logo">Event<span>Sphere.</span></a>
+
+        <!-- Navigation link for returning to the homepage. -->
         <a href="index.html" class="back-home">← Back to Home</a>
+
     </header>
 
+
+    <!-- ==========================================
+         LOGIN MAIN SECTION
+    =========================================== -->
+
+    <!-- Main login layout containing an introduction and login form. -->
     <main class="auth-layout login-layout">
+
+
+        <!-- ==========================================
+             LOGIN INTRODUCTION
+        =========================================== -->
+
+        <!-- Visual section that welcomes returning users. -->
         <section class="auth-visual">
+
             <span class="small-label">WELCOME BACK</span>
+
+            <!-- Main login page heading. -->
             <h1>Your next great<br>experience awaits.</h1>
-            <p>Sign in to discover events, manage your registrations and stay connected.</p>
+
+            <!-- Brief explanation of the benefits of logging in. -->
+            <p>
+                Sign in to discover events, manage your registrations
+                and stay connected.
+            </p>
+
         </section>
 
+
+        <!-- ==========================================
+             LOGIN FORM
+        =========================================== -->
+
+        <!-- Section containing the user authentication form. -->
         <section class="auth-form-area">
+
+            <!-- JavaScript handles form submission and backend login requests. -->
             <form class="auth-form">
+
                 <span class="small-label">YOUR EVENT JOURNEY</span>
+
                 <h2>Welcome Back!</h2>
-                <p class="form-description">Please enter your details to sign in.</p>
 
+                <p class="form-description">
+                    Please enter your details to sign in.
+                </p>
+
+
+                <!-- Email input field for user authentication. -->
                 <label for="login-email">Email Address</label>
-                <input type="email" id="login-email"
-                       placeholder="Enter your email" required>
 
+                <input
+                    type="email"
+                    id="login-email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <!-- Password input field with a show/hide button. -->
                 <label for="login-password">Password</label>
+
                 <div class="password-field">
-                    <input type="password" id="login-password"
-                           placeholder="Enter your password" required>
-                    <button type="button" class="toggle-password"
-                            data-target="login-password">Show</button>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <!-- JavaScript toggles password visibility using this button. -->
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="login-password"
+                    >Show</button>
+
                 </div>
 
+
+                <!-- Additional login options. -->
                 <div class="form-options">
+
+                    <!-- Checkbox for the remember me interface option. -->
                     <label class="remember-option">
                         <input type="checkbox"> Remember me
                     </label>
+
+                    <!-- Placeholder link for future password recovery functionality. -->
                     <a href="#" class="form-link">Forgot password?</a>
+
                 </div>
 
+
+                <!-- Submit button sends login information to the backend. -->
                 <button type="submit" class="auth-submit">Log In</button>
 
+
+                <!-- Link for users who do not have an account yet. -->
                 <p class="form-switch">
                     Don't have an account?
                     <a href="register.html">Create an account</a>
                 </p>
+
             </form>
+
         </section>
+
     </main>
 
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <!-- Copyright information displayed at the bottom of the page. -->
     <footer class="auth-footer">
         © 2026 EventSphere. All rights reserved.
     </footer>
 
+
+    <!-- Load JavaScript for password visibility and login functionality. -->
     <script src="js/script.js"></script>
+
 </body>
 </html>

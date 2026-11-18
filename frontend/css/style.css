@@ -1,26 +1,42 @@
 
-/* ===== GLOBAL SETTINGS ===== */
+/* ==========================================
+   GLOBAL SETTINGS
+   Reset default browser spacing and define
+   the basic font and colors of the website.
+========================================== */
+
+/* Apply consistent spacing and sizing to all elements. */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Enable smooth scrolling between page sections. */
 html {
     scroll-behavior: smooth;
 }
 
+/* Define the default font, text color and background. */
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #172638;
     background: #ffffff;
 }
 
+/* Remove underlines from all links. */
 a {
     text-decoration: none;
 }
 
-/* ===== NAVIGATION ===== */
+
+/* ==========================================
+   NAVIGATION BAR
+   Style the website logo, navigation links
+   and login or registration buttons.
+========================================== */
+
+/* Main navigation container. */
 .navbar {
     min-height: 82px;
     padding: 0 8%;
@@ -30,6 +46,7 @@ a {
     background: #101f32;
 }
 
+/* Website logo styling. */
 .logo {
     font-size: 27px;
     font-weight: 800;
@@ -37,15 +54,18 @@ a {
     letter-spacing: -1px;
 }
 
+/* Highlight the second part of the logo. */
 .logo span {
     color: #38c4d8;
 }
 
+/* Arrange navigation links horizontally. */
 .nav-links {
     display: flex;
     gap: 34px;
 }
 
+/* Style navigation links and login text. */
 .nav-links a,
 .login-link {
     color: #e1e8ef;
@@ -53,17 +73,20 @@ a {
     transition: color 0.3s;
 }
 
+/* Change link color when the mouse hovers over them. */
 .nav-links a:hover,
 .login-link:hover {
     color: #38c4d8;
 }
 
+/* Arrange login and signup actions in a row. */
 .nav-actions {
     display: flex;
     align-items: center;
     gap: 24px;
 }
 
+/* Style the main navigation call-to-action button. */
 .nav-cta {
     background: #26a9c0;
     color: white;
@@ -73,13 +96,21 @@ a {
     transition: 0.3s;
 }
 
+/* Add hover effects to navigation and primary buttons. */
 .nav-cta:hover,
 .primary-btn:hover {
     background: #16869c;
     transform: translateY(-2px);
 }
 
-/* ===== HERO SECTION ===== */
+
+/* ==========================================
+   HERO SECTION
+   Style the main homepage banner, background
+   image, heading, description and action buttons.
+========================================== */
+
+/* Main hero banner with a background image. */
 .hero {
     min-height: 570px;
     position: relative;
@@ -92,6 +123,7 @@ a {
     background-size: cover;
 }
 
+/* Add a dark overlay to improve text readability. */
 .hero-overlay {
     position: absolute;
     inset: 0;
@@ -103,12 +135,14 @@ a {
     );
 }
 
+/* Keep hero content above the background overlay. */
 .hero-content {
     position: relative;
     z-index: 1;
     max-width: 700px;
 }
 
+/* Style small introductory labels used throughout the website. */
 .eyebrow,
 .small-label {
     display: inline-block;
@@ -119,6 +153,7 @@ a {
     margin-bottom: 20px;
 }
 
+/* Style the main hero heading. */
 .hero h1 {
     font-size: clamp(42px, 6vw, 68px);
     line-height: 1.12;
@@ -126,10 +161,12 @@ a {
     margin-bottom: 22px;
 }
 
+/* Highlight part of the hero heading. */
 .hero h1 span {
     color: #43d1df;
 }
 
+/* Style the hero description text. */
 .hero-content > p {
     max-width: 540px;
     color: #d7e0e8;
@@ -138,12 +175,14 @@ a {
     margin-bottom: 30px;
 }
 
+/* Arrange hero action buttons with spacing. */
 .hero-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
 }
 
+/* Shared styling for primary and secondary buttons. */
 .primary-btn,
 .secondary-btn {
     display: inline-block;
@@ -154,27 +193,32 @@ a {
     transition: 0.3s;
 }
 
+/* Style the primary action button. */
 .primary-btn {
     background: #26a9c0;
     color: white;
 }
 
+/* Style the secondary action button. */
 .secondary-btn {
     border: 1px solid rgba(255,255,255,0.65);
     color: white;
 }
 
+/* Change secondary button appearance on hover. */
 .secondary-btn:hover {
     background: white;
     color: #102542;
 }
 
+/* Style the additional hero message. */
 .hero-note {
     margin-top: 45px;
     font-size: 13px;
     color: #d8e5eb;
 }
 
+/* Create the small decorative dot beside the hero message. */
 .note-dot {
     display: inline-block;
     width: 8px;
@@ -184,6 +228,7 @@ a {
     background: #43d1df;
 }
 
+/* Position the informational text at the bottom of the hero. */
 .hero-bottom {
     position: absolute;
     z-index: 1;
@@ -197,7 +242,14 @@ a {
     letter-spacing: 2px;
 }
 
-/* ===== INTRO STRIP ===== */
+
+/* ==========================================
+   INTRODUCTION SECTION
+   Present a short introduction and explain
+   the purpose of the EventSphere platform.
+========================================== */
+
+/* Arrange introduction content horizontally. */
 .intro-strip {
     padding: 65px 10%;
     display: flex;
@@ -207,17 +259,20 @@ a {
     background: #f2f7fa;
 }
 
+/* Style the introduction heading. */
 .intro-strip h2 {
     font-size: 29px;
     line-height: 1.3;
 }
 
+/* Highlight important words in section headings. */
 .intro-strip h2 span,
 .section-heading h2 span,
 .about-section h2 span {
     color: #169db4;
 }
 
+/* Style the introduction description. */
 .intro-strip p {
     max-width: 420px;
     color: #687687;
@@ -225,12 +280,20 @@ a {
     font-size: 15px;
 }
 
-/* ===== EVENTS SECTION ===== */
+
+/* ==========================================
+   EVENTS SECTION
+   Display event cards, event images, dates,
+   locations, descriptions and registration links.
+========================================== */
+
+/* Main container for featured events. */
 .events-section {
     padding: 85px 10%;
     background: white;
 }
 
+/* Arrange the events heading and explore link. */
 .section-heading {
     display: flex;
     justify-content: space-between;
@@ -239,15 +302,18 @@ a {
     margin-bottom: 35px;
 }
 
+/* Adjust spacing below the events section label. */
 .section-heading .small-label {
     margin-bottom: 12px;
 }
 
+/* Style the featured events heading. */
 .section-heading h2 {
     font-size: 36px;
     color: #172638;
 }
 
+/* Style the explore all events link. */
 .view-all {
     color: #169db4;
     font-weight: bold;
@@ -255,12 +321,14 @@ a {
     margin-bottom: 7px;
 }
 
+/* Create a three-column grid for event cards. */
 .event-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
 }
 
+/* Style individual event cards. */
 .event-card {
     overflow: hidden;
     background: white;
@@ -270,11 +338,13 @@ a {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Add a lifting effect when hovering over an event card. */
 .event-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(16, 37, 66, 0.13);
 }
 
+/* Common styling for event card image containers. */
 .event-image {
     height: 215px;
     position: relative;
@@ -282,18 +352,22 @@ a {
     background-position: center;
 }
 
+/* Background image for the first event card. */
 .image-one {
     background-image: url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=900&q=80");
 }
 
+/* Background image for the second event card. */
 .image-two {
     background-image: url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80");
 }
 
+/* Background image for the third event card. */
 .image-three {
     background-image: url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80");
 }
 
+/* Shared positioning and styling for event tags. */
 .category-tag,
 .date-tag {
     position: absolute;
@@ -305,28 +379,33 @@ a {
     letter-spacing: 1px;
 }
 
+/* Position and style the event category label. */
 .category-tag {
     left: 15px;
     background: white;
     color: #172638;
 }
 
+/* Position and style the event date label. */
 .date-tag {
     right: 15px;
     background: #159db4;
     color: white;
 }
 
+/* Add spacing inside the event card information area. */
 .event-info {
     padding: 23px;
 }
 
+/* Style the event location text. */
 .event-location {
     color: #159db4;
     font-size: 12px;
     font-weight: bold;
 }
 
+/* Style the event title. */
 .event-info h3 {
     margin: 13px 0;
     font-size: 20px;
@@ -334,6 +413,7 @@ a {
     color: #172638;
 }
 
+/* Style the event description. */
 .event-info p {
     color: #718091;
     font-size: 13px;
@@ -341,6 +421,7 @@ a {
     min-height: 66px;
 }
 
+/* Style the event registration button or link. */
 .event-link {
     display: flex;
     justify-content: space-between;
@@ -353,13 +434,21 @@ a {
     font-weight: bold;
 }
 
-/* ===== ABOUT SECTION ===== */
+
+/* ==========================================
+   ABOUT SECTION
+   Present information about EventSphere
+   and its corporate event management services.
+========================================== */
+
+/* Center the about section content. */
 .about-section {
     padding: 85px 20px;
     text-align: center;
     background: #f2f7fa;
 }
 
+/* Style the about section heading. */
 .about-section h2 {
     color: #172638;
     font-size: 40px;
@@ -367,6 +456,7 @@ a {
     margin-bottom: 20px;
 }
 
+/* Style the about section description. */
 .about-section p {
     max-width: 650px;
     margin: 0 auto 28px;
@@ -375,7 +465,14 @@ a {
     line-height: 1.8;
 }
 
-/* ===== FOOTER ===== */
+
+/* ==========================================
+   FOOTER
+   Style the website footer, logo, description
+   and copyright information.
+========================================== */
+
+/* Main footer container. */
 .footer {
     padding: 40px 10%;
     background: #101f32;
@@ -383,12 +480,14 @@ a {
     text-align: center;
 }
 
+/* Style the footer description. */
 .footer p {
     margin: 15px 0 25px;
     color: #b8c5d2;
     font-size: 13px;
 }
 
+/* Style the copyright text. */
 .copyright {
     display: block;
     padding-top: 20px;
@@ -397,28 +496,43 @@ a {
     font-size: 12px;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+
+/* ==========================================
+   RESPONSIVE HOMEPAGE DESIGN
+   Adjust navigation, event cards and sections
+   for tablet and mobile screen sizes.
+========================================== */
+
+/* Tablet layout adjustments. */
 @media (max-width: 900px) {
+
+    /* Allow navigation elements to wrap on smaller screens. */
     .navbar {
         padding: 20px 5%;
         flex-wrap: wrap;
         gap: 20px;
     }
 
+    /* Display two event cards per row on tablets. */
     .event-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    /* Adjust introduction section spacing. */
     .intro-strip {
         padding: 50px 6%;
     }
 }
 
+/* Mobile homepage layout adjustments. */
 @media (max-width: 600px) {
+
+    /* Center navigation elements on mobile screens. */
     .navbar {
         justify-content: center;
     }
 
+    /* Move navigation links to a separate row. */
     .nav-links {
         order: 3;
         width: 100%;
@@ -426,54 +540,70 @@ a {
         gap: 20px;
     }
 
+    /* Adjust spacing between navigation actions. */
     .nav-actions {
         gap: 15px;
     }
 
+    /* Adjust hero section height and spacing for mobile. */
     .hero {
         min-height: 570px;
         padding: 65px 7%;
     }
 
+    /* Reduce hero heading size on smaller screens. */
     .hero h1 {
         font-size: 43px;
     }
 
+    /* Adjust the bottom hero information position. */
     .hero-bottom {
         left: 7%;
         right: 7%;
     }
 
+    /* Stack introduction content vertically. */
     .intro-strip {
         flex-direction: column;
         align-items: flex-start;
     }
 
+    /* Reduce events section spacing on mobile. */
     .events-section {
         padding: 60px 7%;
     }
 
+    /* Stack the events heading and explore link vertically. */
     .section-heading {
         align-items: flex-start;
         flex-direction: column;
     }
 
+    /* Display one event card per row on mobile. */
     .event-grid {
         grid-template-columns: 1fr;
     }
 
+    /* Reduce about heading size on mobile. */
     .about-section h2 {
         font-size: 32px;
     }
 }
 
-/* ===== LOGIN AND REGISTER PAGES ===== */
 
+/* ==========================================
+   LOGIN AND REGISTRATION PAGES
+   Style authentication page layouts, welcome
+   sections, forms, labels and input fields.
+========================================== */
+
+/* Main background for authentication pages. */
 .auth-page {
     min-height: 100vh;
     background: #f2f7fa;
 }
 
+/* Authentication page navigation header. */
 .auth-navbar {
     height: 75px;
     padding: 0 8%;
@@ -483,15 +613,18 @@ a {
     background: #101f32;
 }
 
+/* Style the back-to-home navigation link. */
 .back-home {
     color: #dce7ef;
     font-size: 14px;
 }
 
+/* Change back-to-home link color on hover. */
 .back-home:hover {
     color: #43d1df;
 }
 
+/* Create a two-column layout for authentication pages. */
 .auth-layout {
     min-height: calc(100vh - 130px);
     padding: 55px 8%;
@@ -501,6 +634,7 @@ a {
     gap: 55px;
 }
 
+/* Style the visual introduction panel on authentication pages. */
 .auth-visual {
     min-height: 470px;
     padding: 65px 45px;
@@ -515,23 +649,27 @@ a {
         center/cover;
 }
 
+/* Style the welcome heading in the visual panel. */
 .auth-visual h1 {
     font-size: clamp(35px, 4vw, 48px);
     line-height: 1.2;
     margin-bottom: 20px;
 }
 
+/* Style the description inside the visual panel. */
 .auth-visual p {
     max-width: 420px;
     color: #d6e2eb;
     line-height: 1.8;
 }
 
+/* Center the authentication form area. */
 .auth-form-area {
     display: flex;
     justify-content: center;
 }
 
+/* Style the main login and registration forms. */
 .auth-form {
     width: 100%;
     max-width: 440px;
@@ -541,16 +679,19 @@ a {
     box-shadow: 0 10px 35px rgba(16, 37, 66, 0.08);
 }
 
+/* Adjust the small label inside authentication forms. */
 .auth-form .small-label {
     margin-bottom: 12px;
 }
 
+/* Style the authentication form heading. */
 .auth-form h2 {
     color: #172638;
     font-size: 30px;
     margin-bottom: 9px;
 }
 
+/* Style the short description above the form fields. */
 .form-description {
     color: #718091;
     font-size: 14px;
@@ -558,6 +699,7 @@ a {
     line-height: 1.6;
 }
 
+/* Style labels for login and registration input fields. */
 .auth-form > label:not(.remember-option):not(.terms-option) {
     display: block;
     margin: 17px 0 8px;
@@ -566,6 +708,7 @@ a {
     font-weight: bold;
 }
 
+/* Common styling for text, email and password inputs. */
 .auth-form > input,
 .password-field input {
     width: 100%;
@@ -579,19 +722,23 @@ a {
     background: white;
 }
 
+/* Highlight an input when the user selects it. */
 .auth-form input:focus {
     border-color: #169db4;
     box-shadow: 0 0 0 3px rgba(22, 157, 180, 0.1);
 }
 
+/* Position the password field and its visibility button. */
 .password-field {
     position: relative;
 }
 
+/* Leave space inside password inputs for the show/hide button. */
 .password-field input {
     padding-right: 65px;
 }
 
+/* Style the password visibility toggle button. */
 .toggle-password {
     position: absolute;
     top: 50%;
@@ -604,6 +751,7 @@ a {
     cursor: pointer;
 }
 
+/* Arrange remember me and forgot password options. */
 .form-options {
     display: flex;
     justify-content: space-between;
@@ -613,6 +761,7 @@ a {
     font-size: 12px;
 }
 
+/* Style the remember me and terms checkbox labels. */
 .remember-option,
 .terms-option {
     display: flex;
@@ -621,17 +770,20 @@ a {
     color: #647386;
 }
 
+/* Style links inside authentication forms. */
 .form-link,
 .form-switch a {
     color: #169db4;
     font-weight: bold;
 }
 
+/* Adjust the terms and conditions checkbox area. */
 .terms-option {
     margin: 20px 0;
     font-size: 12px;
 }
 
+/* Style the main login and signup submit buttons. */
 .auth-submit {
     width: 100%;
     min-height: 48px;
@@ -645,11 +797,13 @@ a {
     transition: 0.3s;
 }
 
+/* Add a hover effect to authentication submit buttons. */
 .auth-submit:hover {
     background: #117f96;
     transform: translateY(-2px);
 }
 
+/* Style the link for switching between login and signup. */
 .form-switch {
     margin-top: 23px;
     text-align: center;
@@ -657,6 +811,7 @@ a {
     font-size: 13px;
 }
 
+/* Authentication page footer styling. */
 .auth-footer {
     padding: 22px;
     background: #101f32;
@@ -665,47 +820,72 @@ a {
     font-size: 12px;
 }
 
-/* Register page adjustments */
+
+/* ==========================================
+   REGISTRATION PAGE ADJUSTMENTS
+   Customize the signup page spacing and
+   visual panel height.
+========================================== */
+
+/* Adjust the registration page vertical spacing. */
 .register-layout {
     padding-top: 35px;
     padding-bottom: 35px;
 }
 
+/* Increase the height of the registration visual panel. */
 .register-layout .auth-visual {
     min-height: 550px;
 }
 
+/* Adjust padding inside the registration form. */
 .register-layout .auth-form {
     padding: 30px 38px;
 }
 
-/* Mobile screens */
+
+/* ==========================================
+   MOBILE AUTHENTICATION DESIGN
+   Make login and registration forms responsive
+   on tablets and smaller mobile screens.
+========================================== */
+
+/* Stack authentication sections on smaller screens. */
 @media (max-width: 800px) {
+
+    /* Change the authentication layout to one column. */
     .auth-layout {
         grid-template-columns: 1fr;
         padding: 35px 6%;
         gap: 25px;
     }
 
+    /* Reduce the visual panel height and padding. */
     .auth-visual {
         min-height: 300px;
         padding: 35px;
     }
 
+    /* Adjust registration visual panel height on mobile. */
     .register-layout .auth-visual {
         min-height: 280px;
     }
 }
 
+/* Additional adjustments for very small mobile screens. */
 @media (max-width: 480px) {
+
+    /* Reduce authentication navbar side spacing. */
     .auth-navbar {
         padding: 0 5%;
     }
 
+    /* Reduce form padding to fit narrow screens. */
     .auth-form {
         padding: 25px 20px;
     }
 
+    /* Align login options neatly on small screens. */
     .form-options {
         align-items: flex-start;
     }

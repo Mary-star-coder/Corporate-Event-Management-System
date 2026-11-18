@@ -1,75 +1,195 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Define the character encoding for the webpage. -->
     <meta charset="UTF-8">
+
+    <!-- Make the registration page responsive on all screen sizes. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Set the browser tab title. -->
     <title>Register | EventSphere</title>
+
+    <!-- Connect the external CSS stylesheet. -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
+<!-- Apply authentication page styling to the body. -->
 <body class="auth-page">
 
+
+    <!-- ==========================================
+         AUTHENTICATION NAVIGATION
+    =========================================== -->
+
+    <!-- Header containing the website logo and homepage link. -->
     <header class="auth-navbar">
+
+        <!-- Website logo links back to the homepage. -->
         <a href="index.html" class="logo">Event<span>Sphere.</span></a>
+
+        <!-- Navigation link for returning to the homepage. -->
         <a href="index.html" class="back-home">← Back to Home</a>
+
     </header>
 
+
+    <!-- ==========================================
+         REGISTRATION MAIN SECTION
+    =========================================== -->
+
+    <!-- Main layout containing an introduction and registration form. -->
     <main class="auth-layout register-layout">
+
+
+        <!-- ==========================================
+             REGISTRATION INTRODUCTION
+        =========================================== -->
+
+        <!-- Visual section welcoming new users to the platform. -->
         <section class="auth-visual">
+
             <span class="small-label">JOIN OUR COMMUNITY</span>
+
+            <!-- Main registration page heading. -->
             <h1>Be part of<br>something great.</h1>
-            <p>Create your account and discover conferences, workshops and professional opportunities.</p>
+
+            <!-- Brief explanation of the platform's benefits. -->
+            <p>
+                Create your account and discover conferences, workshops
+                and professional opportunities.
+            </p>
+
         </section>
 
+
+        <!-- ==========================================
+             REGISTRATION FORM
+        =========================================== -->
+
+        <!-- Section containing the new user registration form. -->
         <section class="auth-form-area">
+
+            <!-- JavaScript handles validation and sends signup data to the backend. -->
             <form class="auth-form">
+
                 <span class="small-label">GET STARTED</span>
+
                 <h2>Create Account</h2>
-                <p class="form-description">Fill in your details to join EventSphere.</p>
 
+                <p class="form-description">
+                    Fill in your details to join EventSphere.
+                </p>
+
+
+                <!-- Input field for the user's full name. -->
                 <label for="full-name">Full Name</label>
-                <input type="text" id="full-name"
-                       placeholder="Enter your full name" required>
 
+                <input
+                    type="text"
+                    id="full-name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+                <!-- Input field for the user's email address. -->
                 <label for="register-email">Email Address</label>
-                <input type="email" id="register-email"
-                       placeholder="Enter your email" required>
 
+                <input
+                    type="email"
+                    id="register-email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <!-- Password field with show/hide functionality. -->
                 <label for="register-password">Password</label>
+
                 <div class="password-field">
-                    <input type="password" id="register-password"
-                           placeholder="Create a password" minlength="8" required>
-                    <button type="button" class="toggle-password"
-                            data-target="register-password">Show</button>
+
+                    <input
+                        type="password"
+                        id="register-password"
+                        placeholder="Create a password"
+                        minlength="8"
+                        required
+                    >
+
+                    <!-- JavaScript uses data-target to identify the password input. -->
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="register-password"
+                    >Show</button>
+
                 </div>
 
+
+                <!-- Password confirmation field. -->
                 <label for="confirm-password">Confirm Password</label>
+
                 <div class="password-field">
-                    <input type="password" id="confirm-password"
-                           placeholder="Re-enter your password" minlength="8" required>
-                    <button type="button" class="toggle-password"
-                            data-target="confirm-password">Show</button>
+
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        placeholder="Re-enter your password"
+                        minlength="8"
+                        required
+                    >
+
+                    <!-- Button to show or hide the confirmation password. -->
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="confirm-password"
+                    >Show</button>
+
                 </div>
 
+
+                <!-- Terms and Conditions checkbox required before submission. -->
                 <label class="terms-option">
                     <input type="checkbox" required>
                     I agree to the Terms and Conditions.
                 </label>
 
-                <button type="submit" class="auth-submit">Create Account</button>
 
+                <!-- Submit button sends registration information to the backend. -->
+                <button type="submit" class="auth-submit">
+                    Create Account
+                </button>
+
+
+                <!-- Link for users who already have an account. -->
                 <p class="form-switch">
                     Already have an account?
                     <a href="login.html">Log In</a>
                 </p>
+
             </form>
+
         </section>
+
     </main>
 
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <!-- Copyright information displayed at the bottom of the page. -->
     <footer class="auth-footer">
         © 2026 EventSphere. All rights reserved.
     </footer>
 
+
+    <!-- Load JavaScript for password visibility and signup functionality. -->
     <script src="js/script.js"></script>
+
 </body>
 </html>
