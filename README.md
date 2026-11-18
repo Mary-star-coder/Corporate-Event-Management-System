@@ -168,3 +168,11 @@ AI tools were used for learning, debugging, code explanations, and documentation
 
 Student Project – Corporate Event Management System
 
+## Git Workflow
+
+The project is maintained using Git and GitHub.
+
+- `main` branch contains the stable project version.
+- Feature branches are used for separate development tasks.
+- Changes are committed with meaningful commit messages.
+- Completed changes are pushed to GitHub and merged into main.
